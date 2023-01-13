@@ -14,7 +14,7 @@ export default function HomeOne () {
 
             <HeroOne
                 heading="deFractionalize"
-                subHeading="It's crafted with the latest trend of design & coded with all modern approaches."
+                subHeading="Its time to get rid of those shit tokens."
                 buttonGroup={[
                     {
                         btnColor: "primary",
