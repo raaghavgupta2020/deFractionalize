@@ -87,6 +87,37 @@ contract NFTContract is ERC721URIStorage {
         // TODO: Emit relevant event
     }
 
+    function swap(uint256 poolId, uint256 fractionCount) public payable {
+        require(
+            !(msg.value > 0 && fractionCount > 0),
+            "Invalid call. Cannot decide which side"
+        );
+        uint256 POOL_CONST = pool_data[poolId].nft_fractions *
+            pool_data[poolId].token_liq;
+        NFTLiquidityPoolData memory pData = pool_data[poolId];
+        if (msg.value > 0) {
+            // Swap FROM MATIC to Fractions
+            uint256 fractions = pData.nft_fractions -
+                (POOL_CONST / (pData.token_liq + msg.value));
+            pool_data[poolId].nft_fractions -= fractions;
+            pool_data[poolId].token_liq += msg.value;
+            fractionBalances[msg.sender][pData.tokenId] += fractions;
+        } else {
+            // Swap TO MATIC from Fractions
+            require(
+                fractionBalances[msg.sender][pool_data[poolId].tokenId] >=
+                    fractionCount,
+                "Not enough fractions in balance"
+            );
+            uint256 tokens = pData.token_liq -
+                (POOL_CONST / (pData.nft_fractions + fractionCount));
+            pool_data[poolId].token_liq -= tokens;
+            payable(msg.sender).transfer(tokens);
+            pool_data[poolId].nft_fractions += fractionCount;
+            fractionBalances[msg.sender][pData.tokenId] -= fractionCount;
+        }
+    }
+
     event MintingEvent(uint256 indexed tokenId, address indexed owner);
 
 
