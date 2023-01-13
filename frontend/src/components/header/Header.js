@@ -33,7 +33,7 @@ export default function Header() {
               src={`${process.env.PUBLIC_URL}/${darkLogo}`}
               alt="Dark"
             /> */}
-            <h1 className="text-white">deFractionalize</h1>
+            <h1 className="text-grey-300">deFractionalize</h1>
           </Link>
 
           {/* Navbar Toggler */}
