@@ -32,7 +32,7 @@ const Activity = () => {
             tokenID.map(async (item) => {
                 const res = await axios.get(`https://api.covalenthq.com/v1/80001/tokens/0xF15c786e888828BdFe4416135753Dd68685fd87b/nft_metadata/${item}/?quote-currency=USD&format=JSON&key=ckey_d602af5fb4154aa5ace006300cc`);
 
-                if (user == JSON.stringify(res.data.data.items[0].nft_data[0].original_owner)) {
+                if (user === JSON.stringify(res.data.data.items[0].nft_data[0].original_owner)) {
                     console.log(res.data.data.items[0].nft_data[0].original_owner);
 
                     let item = {
@@ -40,13 +40,13 @@ const Activity = () => {
                         name: res.data.data.items[0].nft_data[0].external_data.name,
                         image: res.data.data.items[0].nft_data[0].external_data.image
                     };
-                    //console.log(item);
+                    console.log(item);
                     return item;
                 } else { return ''; }
             })
         );
         console.log(items);
-        setData(items);
+        await setData(items);
 
     }
     console.log(data);
