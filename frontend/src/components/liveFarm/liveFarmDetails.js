@@ -523,7 +523,7 @@ const LiveFarmDetails = () => {
                 {/* Bids Countdown */}
                 {/* get revenue from chainlink */}
                 <p className="lh-1">Swap</p>
-                <h3>Reveneue: 264 Matic</h3>
+                <h3>Revenue: 264 Matic</h3>
                 <h3>Fractions you own: {fractions}</h3>
                 {/* <Countdown
                   date="April 24, 2023 00:00:00"
