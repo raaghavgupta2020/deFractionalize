@@ -10,6 +10,9 @@ contract NFTContract is ERC721URIStorage {
     Counters.Counter private _tokenIds;
     Counters.Counter private _poolIds;
     Counters.Counter private _farmIds;
+    uint256 public constant SECONDS_PER_BLOCK = 2;
+    uint256 public constant SECONDS_PER_ROUND = 30;
+    uint256 public constant WINNERS_PER_ROUND = 2;
     uint256 public constant DEFAULT_FRACTIONS_COUNT = 10_000;
     uint256 public constant MINIMUM_INITIAL_LIQUIDITY = 20;
     address private admin;
@@ -38,13 +41,27 @@ contract NFTContract is ERC721URIStorage {
         uint256 nft_fractions;
         uint256 token_liq;
     }
-
+    struct FarmData {
+        uint256 farmId;
+        uint256 tokenId;
+        bool exists;
+        // Total amount that is locked inside this farm
+        uint256 totalLiquidity;
+    }
     // Pool id => NFTLiquidityPoolData
     mapping(uint256 => NFTLiquidityPoolData) public pool_data;
     // tokenId => poolId
     mapping(uint256 => uint256) public tokenToPoolMap;
     // address => tokenId => fractions held
     mapping(address => mapping(uint256 => uint256)) public fractionBalances;
+    // Farm id => Farm data
+    mapping(uint256 => FarmData) public farm_data;
+    //  tokenId => farm id
+    mapping(uint256 => uint256) public tokenIdToFarmMap;
+    // farmid => balance map
+    mapping(uint256 => mapping(address => uint256)) public farmBalances;
+    // farmId => profit balance map
+    mapping(uint256 => mapping(address => uint256)) public farmProfits;
 
     function lastTokenId() public view returns (uint256) {
         return _tokenIds.current();
@@ -118,7 +135,72 @@ contract NFTContract is ERC721URIStorage {
         }
     }
 
+    function stakeToFarm(uint256 farmId, uint256 fractionCount)
+        public
+        _isValidFarmId(farmId)
+    {
+        uint256 tokenId = farm_data[farmId].tokenId;
+        require(
+            fractionCount <= fractionBalances[msg.sender][tokenId],
+            "Insufficient fraction balance"
+        );
+
+        fractionBalances[msg.sender][tokenId] -= fractionCount;
+        farmBalances[farmId][msg.sender] += fractionCount;
+        farm_data[farmId].totalLiquidity += fractionCount;
+        // TODO: Emit relevant event
+    }
+
+    function unstakeFromFarm(uint256 farmId, uint256 fractionCount)
+        public
+        _isValidFarmId(farmId)
+    {
+        uint256 tokenId = farm_data[farmId].tokenId;
+        require(
+            farmBalances[tokenId][msg.sender] >= fractionCount,
+            "Not enough balance in farm"
+        );
+        farmBalances[tokenId][msg.sender] -= fractionCount;
+        farm_data[farmId].totalLiquidity -= fractionCount;
+        fractionBalances[msg.sender][tokenId] += fractionCount;
+        /* TODO: Emit relevant event
+            Transfer the matic to the withdrawer needs RnD to figure out
+        */
+    }
+
+    function claimFarmRewards(uint256 farmId) public _isValidFarmId(farmId) {}
+
+    function makeNewFarm(uint256 tokenId)
+        public
+        _onlyAdmin
+        _isValidTokenId(tokenId)
+    {
+        _farmIds.increment();
+        uint256 newFarmId = _farmIds.current();
+        tokenIdToFarmMap[tokenId] = newFarmId;
+        farm_data[newFarmId] = FarmData({
+            farmId: newFarmId,
+            tokenId: tokenId,
+            exists: true,
+            totalLiquidity: 0
+        });
+    }
+
+    function addProfitToFarm(uint256 farmId)
+        public
+        payable
+        _isValidFarmId(farmId)
+    {}
+
     event MintingEvent(uint256 indexed tokenId, address indexed owner);
+    event ListingEvent(uint256 indexed nftId, uint256 indexed roundNumber);
+
+    event VotedForAnNFTEvent(
+        uint256 indexed nftId,
+        address indexed voter,
+        uint256 vote,
+        uint256 tokenCount
+    );
 
 
 }
