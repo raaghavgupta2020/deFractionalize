@@ -17,6 +17,8 @@ import LiveBidding from './pages/LiveBidding'
 import LiveAuctionDetails from "./components/liveAuction/LiveAuctionDetails";
 import Farm from "./pages/Farm";
 import LiveFarmDetails from "./components/liveFarm/liveFarmDetails";
+import Dashboard from "./dashboard/Dashboard";
+import Epns from "./dashboard/epns";
 
 function App() {
   return (
@@ -33,7 +35,9 @@ function App() {
         <Route path="/live-bid/:BIDSID" element={<LiveAuctionDetails />} />
         <Route path="/farm" element={<Farm />} />
         <Route path="/live-farm/:BIDSID" element={<LiveFarmDetails />} />
-
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/epns" element={<Epns />} />
+        
        
       </Routes>
       <ScrollToTop
