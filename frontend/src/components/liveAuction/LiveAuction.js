@@ -4,7 +4,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Dropdown from 'react-bootstrap/Dropdown';
 
-import LiveAuctionData from "../../data/liveAuction/live-auction.json";
+import LiveAuctionData from "./live-auction.json";
 
 export default function LiveAuction(props) {
     const { backgroundColor, spinnerColor, title, buttonColor, buttonURL, buttonText } = props;

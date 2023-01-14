@@ -14,7 +14,7 @@ import HomeOne from "./pages/HomeOne";
 import ConnectWallet from './pages/ConnectWallet'
 import CreateNew from './pages/CreateNew'
 import LiveBidding from './pages/LiveBidding'
-
+import LiveAuctionDetails from "./components/liveAuction/LiveAuctionDetails";
 
 function App() {
   return (
@@ -28,6 +28,8 @@ function App() {
         <Route path="/connect-wallet" element={<ConnectWallet />} />
         <Route path="/create-new" element={<CreateNew />} />
         <Route path="/live-bidding" element={<LiveBidding />} />
+        <Route path="/live-bid/:BIDSID" element={<LiveAuctionDetails />} />
+
        
       </Routes>
       <ScrollToTop

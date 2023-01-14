@@ -18,7 +18,7 @@ import Breadcrumb from "../breadcrumb/Breadcrumb";
 import Divider from "../divider/Divider";
 import CTA from "../cta/CTA";
 import Swap from "../swap/swap";
-import LiveAuctionData from "../../data/liveAuction/live-auction.json";
+import LiveAuctionData from "./live-auction.json";
 
 const LiveAuctionDetails = () => {
   const bidID = parseInt(useParams().BIDSID, 10);
