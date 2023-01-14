@@ -59,7 +59,8 @@ const Swap = (props) => {
     } else {
       console.log(whichfeild);
       console.log("dbg log");
-      const ethDbg = ethers.utils.parseEther(inputmatic);
+      console.log(typeof(inputmatic))
+      const ethDbg = ethers.utils.parseEther(inputmatic.toString());
       console.log("ethDbg ", ethDbg);
       const swap1 = contract.swap(props.poolId, 0, {
         value: ethDbg,
