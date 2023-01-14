@@ -15,6 +15,8 @@ import ConnectWallet from './pages/ConnectWallet'
 import CreateNew from './pages/CreateNew'
 import LiveBidding from './pages/LiveBidding'
 import LiveAuctionDetails from "./components/liveAuction/LiveAuctionDetails";
+import Farm from "./pages/Farm";
+import LiveFarmDetails from "./components/liveFarm/liveFarmDetails";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         <Route path="/create-new" element={<CreateNew />} />
         <Route path="/live-bidding" element={<LiveBidding />} />
         <Route path="/live-bid/:BIDSID" element={<LiveAuctionDetails />} />
+        <Route path="/farm" element={<Farm />} />
+        <Route path="/live-farm/:BIDSID" element={<LiveFarmDetails />} />
 
        
       </Routes>
