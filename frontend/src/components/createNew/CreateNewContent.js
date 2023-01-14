@@ -37,7 +37,7 @@ const CreateNewContent = () => {
   const [files, setFiles] = useState([]);
   const [tokenRes, setTokenRes] = useState();
   const [formInput, updateFormInput] = useState({
-    price: "",
+  //  price: "",
     name: "",
     description: "",
   });
@@ -56,8 +56,8 @@ const CreateNewContent = () => {
     }
   }
   async function uploadToIPFS() {
-    const { name, description, price } = formInput;
-    if (!name || !description || !price || !fileUrl) return;
+    const { name, description } = formInput;
+    if (!name || !description  || !fileUrl) return;
 
     /* upload to NFT.storage */
 
@@ -101,7 +101,7 @@ const CreateNewContent = () => {
     const signer = provider.getSigner();
 
     /* next, create the item */
-    const price = ethers.utils.parseUnits(formInput.price, "ether");
+    //const price = ethers.utils.parseUnits(formInput.price, "ether");
     let contract = new ethers.Contract(nftAddress, NFTContract.abi, signer);
     let transaction = await contract.mint(url);
     const res = await transaction.wait();
@@ -241,8 +241,8 @@ const CreateNewContent = () => {
                     </Form.Group>
                   </div>
 
-                  {/* Price */}
-                  <div className="col-12 col-md-6">
+                  
+                  {/* <div className="col-12 col-md-6">
                     <Form.Group className="mb-4">
                       <Form.Label className="mb-2 fz-16">Price</Form.Label>
                       <input
@@ -259,7 +259,6 @@ const CreateNewContent = () => {
                     </Form.Group>
                   </div>
 
-                  {/* Royality */}
                   <div className="col-12 col-lg-4">
                     <Form.Group className="mb-4">
                       <Form.Label className="mb-2 fz-16">Royality</Form.Label>
@@ -269,7 +268,7 @@ const CreateNewContent = () => {
                         placeholder="5%"
                       />
                     </Form.Group>
-                  </div>
+                  </div> */}
 
                   {/* No of Copies */}
                   {/* <div className="col-12 col-sm-6 col-lg-4">
@@ -368,12 +367,12 @@ const CreateNewContent = () => {
                       </div>
                     </div>
                   </div>
-                  <div className="col-4">
+                  {/* <div className="col-4">
                     <div className="price text-end">
                       <span className="fz-12 d-block">Price</span>
                       <h6 className="mb-0">{formInput.price}</h6>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 {/* Button */}
